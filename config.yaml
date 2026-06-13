@@ -1,0 +1,75 @@
+# =====================================================================
+# Indian Stock Monitoring Agent - Configuration
+# =====================================================================
+# Watchlist of stocks to monitor. Use NSE tickers (suffix .NS) or
+# BSE tickers (suffix .BO). yfinance understands both.
+# Add/remove symbols freely.
+watchlist:
+  - RELIANCE.NS
+  - TCS.NS
+  - HDFCBANK.NS
+  - INFY.NS
+  - ICICIBANK.NS
+  - SBIN.NS
+  - BHARTIARTL.NS
+  - ITC.NS
+  - LT.NS
+  - HINDUNILVR.NS
+  - WIPRO.NS
+  - TATAMOTORS.NS
+  - TMCV.NS
+  - BPCL.NS
+  - DLF.NS
+
+# Amount of historical daily data to fetch for analysis.
+# Needs to be long enough for the longest moving average (200d) + buffer.
+history_period: "1y"   # yfinance period string: e.g. 6mo, 1y, 2y
+interval: "1d"          # candle interval: 1d recommended for swing signals
+
+# --------------------------------------------------------------------
+# Technical indicator parameters
+# --------------------------------------------------------------------
+indicators:
+  rsi_period: 14
+  rsi_oversold: 30        # RSI below this => bullish (buy) vote
+  rsi_overbought: 70      # RSI above this => bearish (sell) vote
+
+  sma_short: 50
+  sma_long: 200
+
+  ema_short: 12
+  ema_long: 26
+
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+
+  bb_period: 20
+  bb_std: 2.0
+
+# --------------------------------------------------------------------
+# Signal decision thresholds
+# --------------------------------------------------------------------
+# Each indicator casts a vote in [-1 (sell) .. +1 (buy)], scaled by its
+# weight. The weighted score determines the final action.
+signal:
+  weights:
+    rsi: 1.0
+    sma_cross: 1.5      # golden/death cross is a strong long-term signal
+    macd: 1.0
+    bollinger: 1.0
+    ema_trend: 0.5
+  # Net weighted score thresholds (sum of weights is ~5.0)
+  buy_threshold: 1.5
+  sell_threshold: -1.5
+
+# --------------------------------------------------------------------
+# Alerting
+# --------------------------------------------------------------------
+alerts:
+  # Only send an alert when action is BUY or SELL (skip HOLD) to reduce noise.
+  notify_on:
+    - BUY
+    - SELL
+  # Always send a summary digest even if there are no actionable signals.
+  send_empty_digest: false
