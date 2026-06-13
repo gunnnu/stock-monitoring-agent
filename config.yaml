@@ -70,6 +70,5 @@ alerts:
   notify_on:
     - BUY
     - SELL
-    - HOLD
   # Always send a summary digest even if there are no actionable signals.
   send_empty_digest: true
