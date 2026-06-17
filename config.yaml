@@ -20,6 +20,9 @@ watchlist:
   - TMCV.NS
   - BPCL.NS
   - DLF.NS
+  - HDFCBANK.NS
+  - NTPC.NS
+  - TATAPOWER.NS
 
 # Amount of historical daily data to fetch for analysis.
 # Needs to be long enough for the longest moving average (200d) + buffer.
